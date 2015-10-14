@@ -1,7 +1,7 @@
 {
-  "name": "object-store",
+  "name": "local-object-store",
   "description": "File system storage and retrieval of objects as JSON",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "async": "^1.4.x",
     "graceful-fs": "^4.1.2",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArekSredzki/node-object-store.git"
+    "url": "git+https://github.com/ArekSredzki/node-local-object-store.git"
   },
   "keywords": [
     "object",
@@ -35,7 +35,7 @@
   "author": "Arek Sredzki (arek@sredzki.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ArekSredzki/node-object-store/issues"
+    "url": "https://github.com/ArekSredzki/node-local-object-store/issues"
   },
-  "homepage": "https://github.com/ArekSredzki/node-object-store#readme"
+  "homepage": "https://github.com/ArekSredzki/node-local-object-store#readme"
 }

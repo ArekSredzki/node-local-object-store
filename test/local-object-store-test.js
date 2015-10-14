@@ -1,4 +1,4 @@
-var ObjectStore = require('../'),
+var LocalObjectStore = require('../'),
   temp = require('temp'),
   fs = require('graceful-fs'),
   path = require('path'),
@@ -12,13 +12,13 @@ env = {
   test: true
 };
 
-describe("ObjectStore", function() {
+describe("LocalObjectStore", function() {
   var dir;
   var store;
 
   beforeEach(function() {
     dir = temp.mkdirSync('store');
-    store = ObjectStore(dir);
+    store = LocalObjectStore(dir);
   });
 
   it('should store in specified dir', function() {
@@ -26,7 +26,7 @@ describe("ObjectStore", function() {
   });
 
   it('should store data in process.cwd/store when dir is not specified', function() {
-    store = ObjectStore();
+    store = LocalObjectStore();
     assert.equal(store.dir, path.join(process.cwd(), 'store'));
   });
 

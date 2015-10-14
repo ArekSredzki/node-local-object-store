@@ -1,9 +1,9 @@
-# Object store
+# Local Object Store
 
 This npm module for simply serializing JavaScript objects to JSON files into the file system directory of your choosing.
 
 ## Install
-`npm install --save object-store`
+`npm install --save local-object-store`
 
 ## Usage
 
@@ -12,7 +12,7 @@ This npm module for simply serializing JavaScript objects to JSON files into the
 The store module is a function that takes a single parameter: the path to the location on the file system where you want to store your objects. If you omit the storage location the 'store' directory in your current working directory will be used.
 
 ```javascript
-var store = require('store')('/path/to/storage/location');
+var store = require('local-object-store')('/path/to/storage/location');
 ```
 
 ### Adding an object

@@ -4,7 +4,7 @@ var async = require('async'),
   uuid = require('node-uuid'),
   mkdirp = require('mkdirp');
 
-var ObjectStore = function(dir) {
+var LocalObjectStore = function(dir) {
   dir = dir || path.join(process.cwd(), 'store');
 
   return {
@@ -114,4 +114,4 @@ var sort = function(objs, cb) {
   }, cb);
 };
 
-module.exports = ObjectStore;
+module.exports = LocalObjectStore;
