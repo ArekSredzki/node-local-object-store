@@ -1,4 +1,11 @@
-This Node.js npm module simply serializes JavaScript objects to JSON files into the file system directory of your choosing.
+# Object store
+
+This npm module for simply serializing JavaScript objects to JSON files into the file system directory of your choosing.
+
+## Install
+`npm install --save object-store`
+
+## Usage
 
 ### Creating a store
 
@@ -11,7 +18,7 @@ var store = require('store')('/path/to/storage/location');
 ### Adding an object
 
 A stored object must have an `id` attribute (one will be provided if it does not). The object
-will be serialized to JSON using `JSON.stringify` and written to the storage location. 
+will be serialized to JSON using `JSON.stringify` and written to the storage location.
 
 To customize the JSON, you can define the `#toJSON` function on the object to be stored. That function
 must return a JavaScript object.
@@ -68,5 +75,10 @@ store.remove(donkey, function(err) {
   if (err) throw err; // err if the file removal failed
 });
 ```
+## Contributors
+Maintained by Arek Sredzki.
 
-# FIN.
+Originally developed by Alex Wolfe.
+
+## License
+MIT
