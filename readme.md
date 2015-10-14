@@ -1,4 +1,6 @@
 # Local Object Store
+[![Build Status](https://travis-ci.org/ArekSredzki/node-local-object-store.svg?branch=master)](https://travis-ci.org/ArekSredzki/node-local-object-store)
+
 
 This npm module for simply serializing JavaScript objects to JSON files into the file system directory of your choosing.
 
