@@ -1,18 +1,41 @@
 {
-  "name": "store",
+  "name": "object-store",
   "description": "File system storage and retrieval of objects as JSON",
   "version": "0.0.1",
   "dependencies": {
-    "async": ">= 0.1.x",
+    "async": ">=1.4.x",
     "graceful-fs": "latest",
-    "node-uuid": ">= 0.0.x",
-    "mkdirp": ">= 0.3.3"
+    "node-uuid": ">=1.4.x",
+    "mkdirp": ">=0.5.1"
   },
   "devDependencies": {
-    "temp":">= 0.4.x",
-    "mocha": ">= 0.0.x",
-    "chai": ">= 0.0.x"
+    "temp": ">=0.8.x",
+    "mocha": ">=2.3.x",
+    "chai": ">=3.3.x"
   },
   "main": "index",
-  "engines": { "node": ">=0.4.12" }
+  "engines": {
+    "node": ">=0.4.12"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArekSredzki/node-object-store.git"
+  },
+  "keywords": [
+    "object",
+    "store",
+    "local",
+    "store",
+    "persistence",
+    "state"
+  ],
+  "author": "Arek Sredzki (arek@sredzki.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArekSredzki/node-object-store/issues"
+  },
+  "homepage": "https://github.com/ArekSredzki/node-object-store#readme"
 }
