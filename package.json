@@ -1,17 +1,17 @@
 {
   "name": "local-object-store",
   "description": "File system storage and retrieval of objects as JSON",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "dependencies": {
-    "async": "^1.4.x",
-    "graceful-fs": "^4.1.2",
+    "async": "^1.5.x",
+    "graceful-fs": "^4.1.4",
     "mkdirp": "^0.5.1",
     "node-uuid": "^1.4.x"
   },
   "devDependencies": {
     "temp": "^0.8.x",
-    "mocha": "^2.3.x",
-    "chai": "^3.3.x"
+    "mocha": "^2.5.x",
+    "chai": "^3.5.x"
   },
   "main": "index",
   "engines": {

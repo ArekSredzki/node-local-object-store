@@ -1,9 +1,9 @@
-var LocalObjectStore = require('../'),
-  temp = require('temp'),
-  fs = require('graceful-fs'),
-  path = require('path'),
-  async = require('async'),
-  assert = require('chai').assert;
+const LocalObjectStore = require('../');
+const temp = require('temp');
+const fs = require('graceful-fs');
+const path = require('path');
+const async = require('async');
+const assert = require('chai').assert;
 
 // Automatically track and cleanup files at exit
 temp.track();
@@ -18,7 +18,7 @@ describe("LocalObjectStore", function() {
 
   beforeEach(function() {
     dir = temp.mkdirSync('store');
-    store = LocalObjectStore(dir);
+    store = new LocalObjectStore(dir);
   });
 
   it('should store in specified dir', function() {
@@ -26,7 +26,7 @@ describe("LocalObjectStore", function() {
   });
 
   it('should store data in process.cwd/store when dir is not specified', function() {
-    store = LocalObjectStore();
+    store = new LocalObjectStore();
     assert.equal(store.dir, path.join(process.cwd(), 'store'));
   });
 
@@ -106,7 +106,7 @@ describe("LocalObjectStore", function() {
       store.add(obj, function(err) {
         assert.ok(!err, 'error on save: ' + err);
         assert.isTrue(fs.existsSync(file), 'create file');
-        store.remove(obj, function(err) {
+        store.remove(obj.id, function(err) {
           assert.ok(!err, 'error on remove: ' + err);
           assert.isFalse(fs.existsSync(file), 'remove file');
           done();

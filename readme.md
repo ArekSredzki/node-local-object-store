@@ -14,7 +14,8 @@ This npm module for simply serializing JavaScript objects to JSON files into the
 The store module is a function that takes a single parameter: the path to the location on the file system where you want to store your objects. If you omit the storage location the 'store' directory in your current working directory will be used.
 
 ```javascript
-var store = require('local-object-store')('/path/to/storage/location');
+const LocalObjectStore = require('local-object-store')
+const store = new LocalObjectStore('/path/to/storage/location');
 ```
 
 ### Adding an object
@@ -34,7 +35,7 @@ var donkey = {
 
 store.add(donkey, function(err) {
   // called when the file has been written
-  // to the /path/to/storeage/location/12345.json
+  // to the /path/to/storage/location/12345.json
   if (err) throw err; // err if the save failed
 });
 ```
@@ -68,11 +69,11 @@ store.list(function(err, objects) {
 
 ### Removing stored objects
 
-A stored object may be removed simply by passing the object to the `#remove` function.
-The object's `id` attribute will be used to remove the object's file from the file system.
+A stored object may be removed simply by passing the object's `id` attribute to the `remove()` function.
+The attribute will be used to remove the object's file from the file system.
 
 ```javascript
-store.remove(donkey, function(err) {
+store.remove('12345', function(err) {
   // called after the file has been removed
   if (err) throw err; // err if the file removal failed
 });

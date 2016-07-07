@@ -1,117 +1,123 @@
-var async = require('async'),
-  fs = require('graceful-fs'),
-  path = require('path'),
-  uuid = require('node-uuid'),
-  mkdirp = require('mkdirp');
+'use strict';
+const async = require('async');
+const fs = require('graceful-fs');
+const path = require('path');
+const uuid = require('node-uuid');
+const mkdirp = require('mkdirp');
 
-var LocalObjectStore = function(dir) {
-  dir = dir || path.join(process.cwd(), 'store');
+class LocalObjectStore {
+  constructor(dir) {
+    this.dir = dir || path.join(process.cwd(), 'store');
+  }
 
-  return {
-
-    // store in this directory
-
-    dir: dir,
-
-    // list all stored objects by reading the file system
-
-    list: function(cb) {
-      var self = this;
-      var action = function(err) {
-        if (err) return cb(err);
-        readdir(dir, function(err, files) {
-          if (err) return cb(err);
-          files = files.filter(function(f) {
-            return f.substr(-5) === ".json";
-          });
-          var fileLoaders = files.map(function(f) {
-            return function(cb) {
-              loadFile(f, cb);
-            };
-          });
-          async.parallel(fileLoaders, function(err, objs) {
-            if (err) return cb(err);
-            sort(objs, cb);
-          });
-        });
-      };
-      mkdirp(dir, action);
-    },
-
-
-    // store an object to file
-
-    add: function(obj, cb) {
-      var action = function(err) {
-        if (err) return cb(err);
-        var json;
-        try {
-          json = JSON.stringify(obj, null, 2);
-        } catch (e) {
-          return cb(e);
+  // list all stored objects by reading the file system
+  list(cb) {
+    var action = (err) => {
+      if (err) {
+        return cb(err);
+      }
+      this.readdir(this.dir, (err, files) => {
+        if (err) {
+          return cb(err);
         }
-        obj.id = obj.id || uuid.v4();
-        fs.writeFile(path.join(dir, obj.id + '.json'), json, 'utf8', function(err) {
-          if (err) return cb(err);
-          cb();
+        files = files.filter((f) => {
+          return f.substr(-5) === ".json";
         });
-      };
-      mkdirp(dir, action);
-    },
-
-
-    // delete an object's file
-
-    remove: function(obj, cb) {
-      var action = function(err) {
-        if (err) return cb(err);
-        fs.unlink(path.join(dir, obj.id + '.json'), function(err) {
-          cb(err);
+        var fileLoaders = files.map((f) => {
+          return (cb) => {
+            this.loadFile(f, cb);
+          };
         });
-      };
-
-      mkdirp(dir, action);
-    },
-
-
-    // load an object from file
-
-    load: function(id, cb) {
-      mkdirp(dir, function(err) {
-        if (err) return cb(err);
-        loadFile(path.join(dir, id + '.json'), cb);
+        async.parallel(fileLoaders, (err, objs) => {
+          if (err) {
+            return cb(err);
+          }
+          this._sort(objs, cb);
+        });
       });
-    }
+    };
+    mkdirp(this.dir, action);
+  }
 
-  };
-};
+  // store an object to file
+  add(obj, cb) {
+    var action = (err) => {
+      if (err) {
+        return cb(err);
+      }
+      var json;
+      try {
+        json = JSON.stringify(obj, null, 2);
+      } catch (e) {
+        return cb(e);
+      }
+      obj.id = obj.id || uuid.v4();
+      fs.writeFile(path.join(this.dir, obj.id + '.json'), json, 'utf8', (err) => {
+        if (err) {
+          return cb(err);
+        }
+        cb();
+      });
+    };
+    mkdirp(this.dir, action);
+  }
 
-var readdir = function(dir, cb) {
-  fs.readdir(dir, function(err, files) {
-    if (err) return cb(err);
-    files = files.map(function(f) {
-      return path.join(dir, f);
+  // delete an object's file
+  remove(id, cb) {
+    var action = (err) => {
+      if (err) {
+        return cb(err);
+      }
+      fs.unlink(path.join(this.dir, id + '.json'), (err) => {
+        cb(err);
+      });
+    };
+
+    mkdirp(this.dir, action);
+  }
+
+
+  // load an object from file
+  load(id, cb) {
+    mkdirp(this.dir, (err) => {
+      if (err) {
+        return cb(err);
+      }
+      this.loadFile(path.join(this.dir, id + '.json'), cb);
     });
-    cb(null, files);
-  });
-};
+  }
 
+  readdir(dir, cb) {
+    fs.readdir(dir, (err, files) => {
+      if (err) {
+        return cb(err);
+      }
+      files = files.map((f) => {
+        return path.join(dir, f);
+      });
+      cb(null, files);
+    });
+  }
 
-var loadFile = function(f, cb) {
-  fs.readFile(f, 'utf8', function(err, code) {
-    if (err) return cb("error loading file" + err);
-    try {
-      cb(null, JSON.parse(code));
-    } catch (e) {
-      cb("Error parsing " + f + ": " + e);
-    }
-  });
-};
+  loadFile(f, cb) {
+    fs.readFile(f, 'utf8', (err, code) => {
+      if (err) {
+        return cb("error loading file" + err);
+      }
 
-var sort = function(objs, cb) {
-  async.sortBy(objs, function(obj, cb) {
-    cb(null, obj.name || '');
-  }, cb);
-};
+      try {
+        cb(null, JSON.parse(code));
+      } catch (e) {
+        cb("Error parsing " + f + ": " + e);
+      }
+    });
+  }
+
+  _sort(objs, cb) {
+    async.sortBy(objs, (obj, cb) => {
+      cb(null, obj.name || '');
+    }, cb);
+  }
+}
 
 module.exports = LocalObjectStore;
